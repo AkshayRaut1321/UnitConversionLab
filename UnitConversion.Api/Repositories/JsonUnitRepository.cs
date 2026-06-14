@@ -10,25 +10,22 @@ public sealed class JsonUnitRepository : IUnitRepository
 
     public JsonUnitRepository(IWebHostEnvironment environment)
     {
-        var filePath = Path.Combine(
-            environment.ContentRootPath,
-            "Config",
-            "units.json");
+        var filePath = Path.Combine(environment.ContentRootPath, "Config", "units.json");
 
         var json = File.ReadAllText(filePath);
-
-        _configuration =
-            JsonSerializer.Deserialize<UnitConfiguration>(json)
-            ?? throw new InvalidOperationException(
-                "Unable to load unit configuration.");
+        
+        _configuration = JsonSerializer.Deserialize<UnitConfiguration>(
+            json,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })
+            ?? throw new InvalidOperationException("Unable to load unit configuration.");
     }
 
     public IReadOnlyCollection<string> GetCategories()
     {
-        return _configuration
-            .Categories
-            .Select(x => x.Name)
-            .ToList();
+        return _configuration.Categories.Select(x => x.Name).ToList();
     }
 
     public IReadOnlyCollection<string> GetUnits(string category)
@@ -52,14 +49,19 @@ public sealed class JsonUnitRepository : IUnitRepository
     {
         return _configuration.Categories
             .FirstOrDefault(category =>
-                category.Units.Any(u =>
-                    u.Name.Equals(unit,
-                        StringComparison.OrdinalIgnoreCase)));
+                category.Units.Any(u => MatchesUnit(u, unit)));
     }
 
     public UnitDefinition? GetUnit(string category, string unitName)
     {
-        return _configuration.Categories.FirstOrDefault(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase))
-            ?.Units.FirstOrDefault(u => u.Name.Equals(unitName, StringComparison.OrdinalIgnoreCase));
+        return _configuration.Categories
+            .FirstOrDefault(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase))
+            ?.Units.FirstOrDefault(u => MatchesUnit(u, unitName));
+    }
+
+    private bool MatchesUnit(UnitDefinition unit, string searchValue)
+    {
+        return unit.Name.Equals(searchValue, StringComparison.OrdinalIgnoreCase)
+            || unit.Aliases.Any(alias => alias.Equals(searchValue, StringComparison.OrdinalIgnoreCase));
     }
 }
