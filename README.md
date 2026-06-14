@@ -21,6 +21,7 @@ The application uses a JSON-based configuration file to define categories, units
 * OpenAPI/Swagger documentation using NSwag
 * Dependency Injection
 * SOLID-oriented design
+* Unit-tested business logic
 
 ## Solution Structure
 
@@ -33,10 +34,14 @@ UnitConversion
 │   ├── Config
 │   └── Program.cs
 │
-└── UnitConversion.Core
-    ├── Interfaces
-    ├── Models
-    └── Services
+├── UnitConversion.Core
+│   ├── Interfaces
+│   ├── Models
+│   └── Services
+│
+└── UnitConversion.Tests
+    ├── Services
+    └── Converters
 ```
 
 ### Responsibilities
@@ -53,7 +58,14 @@ UnitConversion
 * Domain models
 * Business logic
 * Conversion services
+* Conversion strategies
 * Interfaces
+
+**UnitConversion.Tests**
+
+* Unit tests for conversion services
+* Unit tests for conversion strategies
+* Validation and error scenario coverage
 
 ## Running Locally
 
@@ -85,6 +97,14 @@ Example:
 
 ```text
 https://localhost:<port>/swagger
+```
+
+## Running Tests
+
+Execute all tests:
+
+```bash
+dotnet test
 ```
 
 ## Example Requests
@@ -137,10 +157,10 @@ Units and conversion metadata are stored in a JSON file instead of a database.
 
 Benefits:
 
-* Simpler deployment
-* Easy to modify
+* Simple deployment
+* Easy to modify and extend
 * Suitable for the scope of this challenge
-* Demonstrates a path for future expansion
+* Provides a path for future expansion without changing business logic
 
 ### Conversion Strategy
 
@@ -157,7 +177,18 @@ This allows additional conversion algorithms to be introduced without modifying 
 
 The conversion logic depends on abstractions rather than concrete implementations.
 
-This keeps business logic independent from configuration storage details.
+This keeps business logic independent from configuration storage details and supports future replacement of the JSON configuration source.
+
+## Testing
+
+The solution includes NUnit-based unit tests covering:
+
+* Successful conversions
+* Invalid source units
+* Invalid target units
+* Cross-category validation
+* Unsupported converter scenarios
+* Conversion strategy behavior
 
 ## Trade-Offs
 
@@ -176,6 +207,6 @@ These can be added if future requirements justify them.
 * Additional conversion categories
 * Database-backed configuration
 * Administrative management of units
-* Automated unit and integration tests
 * Caching for large configuration sets
-* Versioned APIs
+* API versioning
+* Integration and end-to-end API testing
