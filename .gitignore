@@ -1,0 +1,52 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Logs
+*.log
+
+# ASP.NET Core
+appsettings.Development.json
+
+# Test results
+TestResults/
+
+# Coverage
+coverage/
+coverage.cobertura.xml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Generated files
+Generated/
+
+# Node modules (if ever added)
+node_modules/

@@ -1,0 +1,32 @@
+{
+  "categories": [
+    {
+      "name": "length",
+      "baseUnit": "meter",
+      "units": [
+        { "name": "meter", "factor": 1 },
+        { "name": "centimeter", "factor": 0.01 },
+        { "name": "kilometer", "factor": 1000 },
+        { "name": "foot", "factor": 0.3048 },
+        { "name": "inch", "factor": 0.0254 }
+      ]
+    },
+    {
+      "name": "mass",
+      "baseUnit": "kilogram",
+      "units": [
+        { "name": "kilogram", "factor": 1 },
+        { "name": "gram", "factor": 0.001 },
+        { "name": "pound", "factor": 0.45359237 }
+      ]
+    },
+    {
+      "name": "temperature",
+      "units": [
+        { "name": "celsius" },
+        { "name": "fahrenheit" },
+        { "name": "kelvin" }
+      ]
+    }
+  ]
+}
